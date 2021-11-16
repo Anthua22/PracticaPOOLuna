@@ -1,4 +1,4 @@
 
 public enum Niveles {
-	Novato,Medio,Externo;
+	Novato,Medio,Avanzado;
 }

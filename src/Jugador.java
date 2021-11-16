@@ -3,13 +3,11 @@ import java.util.Scanner;
 
 public class Jugador {
 
-	private Scanner sc = new Scanner(System.in);
 
 	private String alias;
 	private String password;
 	private String nombre;
 	private Date fechaNac;
-	private numPartidas num;
 	private Niveles modoJuego;
 
 	public Jugador(String alias, String password, Date fechaNac) throws Exception {
@@ -36,26 +34,29 @@ public class Jugador {
 	}
 
 	public String getAlias() {
-
-		alias = sc.next();
 		return alias;
 	}
 
 	public String getNombre() {
-		nombre = sc.next();
 		return nombre;
 	}
 
 	public String getPass() {
-		password = sc.next();
 		return password;
 	}
 
-	@SuppressWarnings("deprecation")
+
 	public Date getFecha() {
-		fechaNac = new Date(sc.nextLine());
 		return fechaNac;
 	}
 
 	// Getters y Setters
+	
+	
+	@Override
+	public String toString() {
+		return "Jugador [alias=" + alias + ", password=" + password + ", nombre=" + nombre + ", fechaNac=" + fechaNac
+				+ ", modoJuego=" + modoJuego + "]";
+	}
+
 }

@@ -34,4 +34,33 @@ public class Partida {
 		puntuacion = 0;
 	}
 
+	public int getNumPartidas() {
+		return numPartidas;
+	}
+
+	public void setNumPartidas(int numPartidas) {
+		this.numPartidas = numPartidas;
+	}
+
+	public Jugador getJugador() {
+		return jugador;
+	}
+
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
+	}
+
+	public int getPuntuacion() {
+		return puntuacion;
+	}
+
+	public void setPuntuacion(int puntuacion) {
+		this.puntuacion = puntuacion;
+	}
+
+	@Override
+	public String toString() {
+		return "Partida [numPartidas=" + numPartidas + ", jugador=" + jugador + ", puntuacion=" + puntuacion + "]";
+	}
+
 }
