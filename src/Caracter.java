@@ -8,8 +8,8 @@
  */
 public class Caracter {
 
-	private static char[] vocales = { 'A', 'E', 'I', 'O', 'U' };
-	private static char[] consonantes = { 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'P', 'Q', 'R',
+	private static final char[] vocales = { 'A', 'E', 'I', 'O', 'U' };
+	private static final char[] consonantes = { 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'P', 'Q', 'R',
 			'S', 'T', 'V', 'X', 'Z', 'W', 'Y' };
 
 	public static boolean esVocal(char letra) {

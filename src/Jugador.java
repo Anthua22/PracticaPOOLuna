@@ -8,7 +8,6 @@ public class Jugador {
 	private String password;
 	private String nombre;
 	private Date fechaNac;
-	private Niveles modoJuego;
 
 	public Jugador(String alias, String password, Date fechaNac) throws Exception {
 		this.alias = alias;
@@ -56,7 +55,7 @@ public class Jugador {
 	@Override
 	public String toString() {
 		return "Jugador [alias=" + alias + ", password=" + password + ", nombre=" + nombre + ", fechaNac=" + fechaNac
-				+ ", modoJuego=" + modoJuego + "]";
+				+"]";
 	}
 
 }

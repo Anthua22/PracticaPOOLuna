@@ -3,11 +3,11 @@ import java.util.Random;
 public class Frase {
 
 	/// Añadir mas frases siguiendo la coma y después la cadena
-	private static String[] frasesFaciles = { "Invierno", "ddd" };
+	private static final String[] frasesFaciles = { "Invierno", "ddd" };
 
-	private static String[] frasesMedias = { "Invierno", "ddd" };
+	private static final String[] frasesMedias = { "Invierno", "ddd" };
 
-	private static String[] frasesElevadas = { "Invierno", "ddd" };
+	private static final String[] frasesElevadas = { "Invierno", "ddd" };
 
 	public static String dameFrase(Niveles nivel) {
 		Random aletorio = new Random();
