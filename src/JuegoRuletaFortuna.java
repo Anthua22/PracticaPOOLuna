@@ -32,10 +32,10 @@ public class JuegoRuletaFortuna {
 		this.intentos = getIntentosNivel();
 	}
 
-	public void jugar(String fraseJuego) {
+	public void jugar() {
 		this.setFraseAdivinar(Frase.dameFrase(modoJuego));
 		System.out.println("La frase a adivinar tiene la siguiente estructura: ");
-		System.out.println(showLineas(fraseJuego));
+		System.out.println(showLineas());
 
 		boolean ganador = false;
 		boolean perdedor = false;
@@ -51,7 +51,7 @@ public class JuegoRuletaFortuna {
 					this.letrasAcert.add(letra.toCharArray()[0]);
 					System.out.println("Quieres comprar una vocal?.(y/n)");
 					String respuestaVocal = scanner.nextLine();
-					if (respuestaVocal.toLowerCase().equals('y')) {
+					if (respuestaVocal.toLowerCase().equals("y")) {
 						if (this.puntuacion > 0) {
 							System.out.println("Escribe la vocal...:");
 							String vocal = scanner.nextLine();
@@ -78,7 +78,7 @@ public class JuegoRuletaFortuna {
 			this.mostrarInfoResultado();
 			System.out.println("Quieres decir la frase completa (y/n):");
 			String respuesta = scanner.nextLine();
-			if (respuesta.toLowerCase().equals('y')) {
+			if (respuesta.toLowerCase().equals("y")) {
 				System.out.println("Escribe la frase...:");
 				String frase = scanner.nextLine();
 				ganador = this.esGanador(frase);
@@ -91,9 +91,9 @@ public class JuegoRuletaFortuna {
 
 	}
 
-	private String showLineas(String frase) {
+	private String showLineas() {
 		String resultado = "";
-		char[] caracteresPalabras = frase.toCharArray();
+		char[] caracteresPalabras = this.fraseAdivinar.toCharArray();
 		for (int i = 0; i < caracteresPalabras.length; i++) {
 			if (caracteresPalabras[i] == ' ') {
 				resultado += "  ";
@@ -107,9 +107,7 @@ public class JuegoRuletaFortuna {
 	}
 
 	private boolean contieneLetra(String letra) {
-
 		return fraseAdivinar.contains(letra);
-
 	}
 
 	private String printLetrasAcertadas(String fraseAdivinar) {
