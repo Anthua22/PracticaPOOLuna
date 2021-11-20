@@ -38,7 +38,6 @@ public class JuegoRuletaFortuna {
 		System.out.println(showLineas());
 
 		boolean ganador = false;
-		boolean perdedor = false;
 
 		do {
 			int posiblePunto = Tirada.tirar();
@@ -63,7 +62,7 @@ public class JuegoRuletaFortuna {
 								}
 								this.puntuacion -= 10;
 							}
-						}else {
+						} else {
 							System.out.println("No tienes puntos suficientes....");
 						}
 
@@ -85,9 +84,8 @@ public class JuegoRuletaFortuna {
 
 			}
 			this.intentos--;
-			perdedor = this.esPerdedor();
 
-		} while (perdedor == true || ganador == true);
+		} while (this.puedeSeguirJugando() || !ganador);
 
 	}
 
@@ -179,6 +177,10 @@ public class JuegoRuletaFortuna {
 
 	public boolean esPerdedor() {
 		return this.getIntentos() <= 0;
+	}
+
+	public boolean puedeSeguirJugando() {
+		return this.intentos > 0;
 	}
 
 	private int getIntentosNivel() {

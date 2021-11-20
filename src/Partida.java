@@ -10,18 +10,6 @@ public class Partida {
 	 * partidas se realizarán por defecto 3. - La puntuación por defecto es 0.
 	 */
 
-//	public Partida(int nPartidas) {
-//		nPartidas=numPartidas;
-//		if(nPartidas=null) {
-//			numPartidas=3;
-//		}
-//		else {
-//			nPartidas=numPartidas;
-//		}
-//		
-//		puntuacion=0;
-//	}
-
 	public Partida(Jugador jugador, int numPartidas) {
 		this.jugador = jugador;
 		this.numPartidas = numPartidas;

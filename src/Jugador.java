@@ -6,7 +6,6 @@ public class Jugador {
 
 	private String alias;
 	private String password;
-	private String nombre;
 	private Date fechaNac;
 
 	public Jugador(String alias, String password, Date fechaNac) throws Exception {
@@ -21,24 +20,23 @@ public class Jugador {
 		this.password = password;
 		this.fechaNac = fechaNac;
 	}
+	
+	public Jugador() {
+		this.alias = "invitado";
+		this.password = "invitado";
+	}
 
 	private boolean validacionFechaNacimiento(Date fechaComparar) {
 		Date actual = new Date();
 		return actual.after(fechaComparar);
 	}
 
-	public int getNumPart() {
-		int numeroPartidas = 0;
-		return numeroPartidas;
-	}
+	
 
 	public String getAlias() {
 		return alias;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
 
 	public String getPass() {
 		return password;
@@ -49,13 +47,14 @@ public class Jugador {
 		return fechaNac;
 	}
 
+	@Override
+	public String toString() {
+		return "Jugador [alias=" + alias + ", password=" + password + ", fechaNac=" + fechaNac + "]";
+	}
+
 	// Getters y Setters
 	
 	
-	@Override
-	public String toString() {
-		return "Jugador [alias=" + alias + ", password=" + password + ", nombre=" + nombre + ", fechaNac=" + fechaNac
-				+"]";
-	}
+	
 
 }
