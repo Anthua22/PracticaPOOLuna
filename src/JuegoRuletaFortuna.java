@@ -20,6 +20,8 @@ public class JuegoRuletaFortuna {
 		this.puntuacion = 0;
 		this.fraseAdivinar = fraseAdivinar;
 		this.intentos = getIntentosNivel();
+		this.letrasAcert = new ArrayList<Character>();
+		this.letrasNoAcert = new ArrayList<Character>();
 	}
 
 	public JuegoRuletaFortuna(Niveles modoJuego, Date fechaNacimiento, String fraseAdivinar) throws Exception {
@@ -30,10 +32,11 @@ public class JuegoRuletaFortuna {
 		this.fraseAdivinar = fraseAdivinar;
 		this.puntuacion = 0;
 		this.intentos = getIntentosNivel();
+		this.letrasAcert = new ArrayList<Character>();
+		this.letrasNoAcert = new ArrayList<Character>();
 	}
 
 	public void jugar() {
-		this.setFraseAdivinar(Frase.dameFrase(modoJuego));
 		System.out.println("La frase a adivinar tiene la siguiente estructura: ");
 		System.out.println(showLineas());
 
@@ -41,14 +44,14 @@ public class JuegoRuletaFortuna {
 
 		do {
 			int posiblePunto = Tirada.tirar();
-			System.out.println("Por " + posiblePunto + " escriba una consonante...: ");
+			System.out.println("Por " + posiblePunto + " puntos escriba una consonante...: ");
 
 			String letra = scanner.nextLine();
 			if (Caracter.esConsonante(letra.toCharArray()[0])) {
 				if (contieneLetra(letra)) {
 					this.puntuacion += posiblePunto;
-					this.letrasAcert.add(letra.toCharArray()[0]);
-					System.out.println("Quieres comprar una vocal?.(y/n)");
+					this.addLetraAcertada(letra.toCharArray()[0]);
+					System.out.println("Has acertado. Quieres comprar una vocal?.(y/n)");
 					String respuestaVocal = scanner.nextLine();
 					if (respuestaVocal.toLowerCase().equals("y")) {
 						if (this.puntuacion > 0) {
@@ -56,9 +59,10 @@ public class JuegoRuletaFortuna {
 							String vocal = scanner.nextLine();
 							if (Caracter.esVocal(vocal.toCharArray()[0])) {
 								if (contieneLetra(vocal)) {
-									this.letrasAcert.add(vocal.toCharArray()[0]);
+									this.addLetraAcertada(vocal.toCharArray()[0]);
 								} else {
-									this.letrasNoAcert.add(vocal.toCharArray()[0]);
+									this.addLetraNoAcertada(vocal.toCharArray()[0]);
+									System.out.println("La vocal "+vocal+" no existe");
 								}
 								this.puntuacion -= 10;
 							}
@@ -69,19 +73,24 @@ public class JuegoRuletaFortuna {
 					}
 
 				} else {
-					this.letrasNoAcert.add(letra.toCharArray()[0]);
+					this.addLetraNoAcertada(letra.toCharArray()[0]);
 				}
 			} else {
 				System.out.println("La letra " + letra + " no es una consonante...");
 			}
 			this.mostrarInfoResultado();
+			System.out.println("****************************************");
 			System.out.println("Quieres decir la frase completa (y/n):");
 			String respuesta = scanner.nextLine();
+			System.out.println("****************************************");
 			if (respuesta.toLowerCase().equals("y")) {
-				System.out.println("Escribe la frase...:");
+				System.out.println("Escribe la frase:");
 				String frase = scanner.nextLine();
 				ganador = this.esGanador(frase);
-
+				if(!ganador) {
+					System.out.println("La frase que has escrito no es la correspondiente...");
+				
+				}
 			}
 			this.intentos--;
 
@@ -105,20 +114,24 @@ public class JuegoRuletaFortuna {
 	}
 
 	private boolean contieneLetra(String letra) {
-		return fraseAdivinar.contains(letra);
+		String fraseAd = fraseAdivinar.toLowerCase();
+		return fraseAd.contains(letra.toLowerCase());
 	}
 
 	private String printLetrasAcertadas(String fraseAdivinar) {
 		String resultado = "";
-		for (int i = 0; i < fraseAdivinar.length(); i++) {
-			if (fraseAdivinar.charAt(i) == ' ') {
+		char[] letrasFrases = fraseAdivinar.toLowerCase().toCharArray();
+		for (int i = 0; i < letrasFrases.length; i++) {
+			if (letrasFrases[i] == ' ') {
 				resultado += "  ";
-			}
-			if (this.letrasAcert.contains(fraseAdivinar.charAt(i))) {
-				resultado += fraseAdivinar.charAt(i);
 			} else {
-				resultado += "_ ";
+				if (this.letrasAcert.contains(letrasFrases[i])) {
+					resultado += fraseAdivinar.charAt(i);
+				} else {
+					resultado += "_ ";
+				}
 			}
+
 		}
 
 		return resultado;
@@ -129,7 +142,7 @@ public class JuegoRuletaFortuna {
 		String edadAño = getYearFormat.format(fechaNacimiento);
 		Date fechaActual = new Date();
 		String añoActual = getYearFormat.format(fechaActual);
-		return (Integer.parseInt(edadAño) - Integer.parseInt(añoActual)) >= 10;
+		return (Integer.parseInt(añoActual) - Integer.parseInt(edadAño)) >= 10;
 	}
 
 	public void mostrarInfoResultado() {
@@ -137,22 +150,18 @@ public class JuegoRuletaFortuna {
 		System.out.println("********Información************");
 		System.out.println("*******************************");
 
-		this.printLetrasAcertadas(fraseAdivinar);
-		System.out.println("*******************************");
-
-		System.out.println("Letras acertadas: ");
-
 		String letrasAcertadasMostrar = "";
 		for (int i = 0; i < this.letrasAcert.size(); i++) {
 			if (i + 1 == this.letrasAcert.size()) {
-				letrasAcertadasMostrar += this.letrasAcert.get(i) + "";
+				letrasAcertadasMostrar += (this.letrasAcert.get(i) + "").toUpperCase();
 			} else {
-				letrasAcertadasMostrar += this.letrasAcert.get(i) + ", ";
+				letrasAcertadasMostrar += (this.letrasAcert.get(i) + ", ").toUpperCase();
 			}
 		}
 
+		System.out.print("Letras acertadas: ");
 		System.out.println(letrasAcertadasMostrar);
-		System.out.println("Letras fallidas: ");
+		System.out.println("*******************************");
 
 		String letrasFallidasMostrar = "";
 		for (int i = 0; i < this.letrasNoAcert.size(); i++) {
@@ -163,16 +172,26 @@ public class JuegoRuletaFortuna {
 			}
 		}
 
-		System.out.println("Intentos restantes: ");
-		System.out.println(this.intentos);
-
+		System.out.print("Letras fallidas:");
 		System.out.println(letrasFallidasMostrar);
-		System.out.println("Puntuación obtenida: ");
-		System.out.print(this.getIntentos());
+		System.out.println("*******************************");
+
+		System.out.print("Intentos restantes: ");
+		System.out.println(this.intentos);
+		System.out.println("*******************************");
+
+		System.out.print("Puntuación obtenida: ");
+		System.out.println(this.getPuntuacion());
+		System.out.println("*******************************");
+
+		System.out.println("Frase");
+		System.out.println("*******************************");
+		System.out.println(this.printLetrasAcertadas(fraseAdivinar));
+
 	}
 
 	public boolean esGanador(String fraseComprobar) {
-		return fraseAdivinar.equals(fraseComprobar);
+		return fraseAdivinar.toLowerCase().equals(fraseComprobar.toLowerCase());
 	}
 
 	public boolean esPerdedor() {
@@ -181,6 +200,18 @@ public class JuegoRuletaFortuna {
 
 	public boolean puedeSeguirJugando() {
 		return this.intentos > 0;
+	}
+
+	private void addLetraAcertada(char letra) {
+		if (!this.letrasAcert.contains(letra)) {
+			this.letrasAcert.add(letra);
+		}
+	}
+
+	private void addLetraNoAcertada(char letra) {
+		if (!this.letrasNoAcert.contains(letra)) {
+			this.letrasNoAcert.add(letra);
+		}
 	}
 
 	private int getIntentosNivel() {

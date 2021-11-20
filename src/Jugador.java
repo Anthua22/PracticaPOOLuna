@@ -30,21 +30,30 @@ public class Jugador {
 		Date actual = new Date();
 		return actual.after(fechaComparar);
 	}
-
 	
 
 	public String getAlias() {
 		return alias;
 	}
 
-
-	public String getPass() {
+	public String getPassword() {
 		return password;
 	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-	public Date getFecha() {
+	public Date getFechaNac() {
 		return fechaNac;
+	}
+
+	public void setFechaNac(Date fechaNac) {
+		this.fechaNac = fechaNac;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 	@Override

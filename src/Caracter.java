@@ -25,7 +25,7 @@ public class Caracter {
 	}
 
 	public static boolean esConsonante(char consonante) {
-		String letraModificada = (consonante + "").toLowerCase();
+		String letraModificada = (consonante + "").toUpperCase();
 		char letraMayuscula = letraModificada.toCharArray()[0];
 		boolean encontrada = false;
 		for (int i = 0; i < consonantes.length; i++) {
