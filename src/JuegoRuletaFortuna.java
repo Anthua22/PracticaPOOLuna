@@ -90,11 +90,14 @@ public class JuegoRuletaFortuna {
 				if(!ganador) {
 					System.out.println("La frase que has escrito no es la correspondiente...");
 				
+				}else {
+					System.out.println("Has ganado la partida. La frase era: "+this.getFraseAdivinar());
+					
 				}
 			}
 			this.intentos--;
 
-		} while (this.puedeSeguirJugando() || !ganador);
+		} while (this.puedeSeguirJugando() && !ganador);
 
 	}
 

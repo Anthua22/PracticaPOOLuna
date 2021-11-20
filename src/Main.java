@@ -100,7 +100,7 @@ public class Main {
 
 	public static Niveles obtenerNivel() {
 		Niveles level;
-		System.out.println("Escriba la dificultad del juego (novato, medio, avanzado)...:");
+		System.out.println("Escriba la dificultad del juego: novato, medio, avanzado (novato por defecto)");
 		String respuesta = scan.nextLine().toLowerCase();
 		switch (respuesta) {
 		case "medio":
