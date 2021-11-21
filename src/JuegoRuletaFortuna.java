@@ -11,35 +11,40 @@ public class JuegoRuletaFortuna {
 	private ArrayList<Character> letrasAcert;
 	private ArrayList<Character> letrasNoAcert;
 	private int intentos;
-
-	public JuegoRuletaFortuna(Date fechaNacimiento, String fraseAdivinar) throws Exception {
+	private boolean ganador;
+	
+	public JuegoRuletaFortuna(Date fechaNacimiento, String frase) throws Exception {
 		if (!comprobarEdad(fechaNacimiento)) {
 			throw new Exception("EL jugador debe tener al menos 10 años");
 		}
 		modoJuego = Niveles.Novato;
 		this.puntuacion = 0;
-		this.fraseAdivinar = fraseAdivinar;
+		this.fraseAdivinar = frase;
 		this.intentos = getIntentosNivel();
 		this.letrasAcert = new ArrayList<Character>();
 		this.letrasNoAcert = new ArrayList<Character>();
+		this.ganador = false;
 	}
 
-	public JuegoRuletaFortuna(Niveles modoJuego, Date fechaNacimiento, String fraseAdivinar) throws Exception {
+	public JuegoRuletaFortuna(Niveles modoJuego, Date fechaNacimiento) throws Exception {
 		if (!comprobarEdad(fechaNacimiento)) {
 			throw new Exception("EL jugador debe tener al menos 10 años");
 		}
 		this.modoJuego = modoJuego;
-		this.fraseAdivinar = fraseAdivinar;
+		this.fraseAdivinar = Frase.dameFrase(modoJuego);
 		this.puntuacion = 0;
 		this.intentos = getIntentosNivel();
 		this.letrasAcert = new ArrayList<Character>();
 		this.letrasNoAcert = new ArrayList<Character>();
+		this.ganador = false;
 	}
+	
+
 
 	public void jugar() {
 		System.out.println("La frase a adivinar tiene la siguiente estructura: ");
 		System.out.println(showLineas());
-
+		System.out.println("*********************************************");
 		boolean ganador = false;
 
 		do {
@@ -55,7 +60,7 @@ public class JuegoRuletaFortuna {
 					String respuestaVocal = scanner.nextLine();
 					if (respuestaVocal.toLowerCase().equals("y")) {
 						if (this.puntuacion > 0) {
-							System.out.println("Escribe la vocal...:");
+							System.out.println("Escribe una vocal...:");
 							String vocal = scanner.nextLine();
 							if (Caracter.esVocal(vocal.toCharArray()[0])) {
 								if (contieneLetra(vocal)) {
@@ -65,6 +70,8 @@ public class JuegoRuletaFortuna {
 									System.out.println("La vocal "+vocal+" no existe");
 								}
 								this.puntuacion -= 10;
+							}else {
+								System.out.println("La letra " + vocal + " no es una vocal...");
 							}
 						} else {
 							System.out.println("No tienes puntos suficientes....");
@@ -78,6 +85,7 @@ public class JuegoRuletaFortuna {
 			} else {
 				System.out.println("La letra " + letra + " no es una consonante...");
 			}
+			this.intentos--;
 			this.mostrarInfoResultado();
 			System.out.println("****************************************");
 			System.out.println("Quieres decir la frase completa (y/n):");
@@ -95,10 +103,14 @@ public class JuegoRuletaFortuna {
 					
 				}
 			}
-			this.intentos--;
+			
 
 		} while (this.puedeSeguirJugando() && !ganador);
 
+		if(this.esPerdedor()) {
+			System.out.println("Has perdido la partida...");
+			this.setPuntuacion(0);
+		}
 	}
 
 	private String showLineas() {
@@ -140,7 +152,7 @@ public class JuegoRuletaFortuna {
 		return resultado;
 	}
 
-	private boolean comprobarEdad(Date fechaNacimiento) {
+	public boolean comprobarEdad(Date fechaNacimiento) {
 		SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
 		String edadAño = getYearFormat.format(fechaNacimiento);
 		Date fechaActual = new Date();
@@ -176,7 +188,7 @@ public class JuegoRuletaFortuna {
 		}
 
 		System.out.print("Letras fallidas:");
-		System.out.println(letrasFallidasMostrar);
+		System.out.println(letrasFallidasMostrar.toUpperCase());
 		System.out.println("*******************************");
 
 		System.out.print("Intentos restantes: ");
@@ -188,17 +200,17 @@ public class JuegoRuletaFortuna {
 		System.out.println("*******************************");
 
 		System.out.println("Frase");
-		System.out.println("*******************************");
 		System.out.println(this.printLetrasAcertadas(fraseAdivinar));
-
+		System.out.println("*******************************");
 	}
 
 	public boolean esGanador(String fraseComprobar) {
-		return fraseAdivinar.toLowerCase().equals(fraseComprobar.toLowerCase());
+		this.ganador = fraseAdivinar.toLowerCase().equals(fraseComprobar.toLowerCase());
+		return ganador;
 	}
 
 	public boolean esPerdedor() {
-		return this.getIntentos() <= 0;
+		return this.getIntentos() <= 0 && !this.ganador;
 	}
 
 	public boolean puedeSeguirJugando() {
@@ -220,7 +232,7 @@ public class JuegoRuletaFortuna {
 	private int getIntentosNivel() {
 		int intentos = 0;
 		if (Niveles.Novato.equals(modoJuego)) {
-			intentos = 10;
+			intentos = 2;
 		} else if (Niveles.Medio.equals(modoJuego)) {
 			intentos = 8;
 		} else {
@@ -236,6 +248,7 @@ public class JuegoRuletaFortuna {
 
 	public void setModoJuego(Niveles modoJuego) {
 		this.modoJuego = modoJuego;
+		this.fraseAdivinar = Frase.dameFrase(modoJuego);
 	}
 
 	public int getPuntuacion() {

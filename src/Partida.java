@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Partida {
+public class Partida implements Serializable{
 
 	private int numPartidas;
 	private Jugador jugador;

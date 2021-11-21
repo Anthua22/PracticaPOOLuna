@@ -1,7 +1,7 @@
+import java.io.Serializable;
 import java.util.Date;
-import java.util.Scanner;
 
-public class Jugador {
+public class Jugador implements Serializable{
 
 
 	private String alias;
