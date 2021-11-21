@@ -6,7 +6,7 @@ public class Tirada {
 
 	public static int tirar() {
 		Random aletorio = new Random();
-		int posicionAleatoria = aletorio.nextInt(4);
+		int posicionAleatoria = aletorio.nextInt(puntuaciones.length);
 		return puntuaciones[posicionAleatoria];
 	}
 }

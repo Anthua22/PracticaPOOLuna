@@ -12,7 +12,7 @@ public class JuegoRuletaFortuna {
 	private ArrayList<Character> letrasNoAcert;
 	private int intentos;
 	private boolean ganador;
-	
+
 	public JuegoRuletaFortuna(Date fechaNacimiento, String frase) throws Exception {
 		if (!comprobarEdad(fechaNacimiento)) {
 			throw new Exception("EL jugador debe tener al menos 10 años");
@@ -38,8 +38,6 @@ public class JuegoRuletaFortuna {
 		this.letrasNoAcert = new ArrayList<Character>();
 		this.ganador = false;
 	}
-	
-
 
 	public void jugar() {
 		System.out.println("La frase a adivinar tiene la siguiente estructura: ");
@@ -49,42 +47,49 @@ public class JuegoRuletaFortuna {
 
 		do {
 			int posiblePunto = Tirada.tirar();
-			System.out.println("Por " + posiblePunto + " puntos escriba una consonante...: ");
 
-			String letra = scanner.nextLine();
-			if (Caracter.esConsonante(letra.toCharArray()[0])) {
-				if (contieneLetra(letra)) {
-					this.puntuacion += posiblePunto;
-					this.addLetraAcertada(letra.toCharArray()[0]);
-					System.out.println("Has acertado. Quieres comprar una vocal?.(y/n)");
-					String respuestaVocal = scanner.nextLine();
-					if (respuestaVocal.toLowerCase().equals("y")) {
-						if (this.puntuacion > 0) {
-							System.out.println("Escribe una vocal...:");
-							String vocal = scanner.nextLine();
-							if (Caracter.esVocal(vocal.toCharArray()[0])) {
-								if (contieneLetra(vocal)) {
-									this.addLetraAcertada(vocal.toCharArray()[0]);
+			if (posiblePunto == 0) {
+				System.out.println("Mala suerte has caído en bancarrota, pierdes todos los puntos acumulados...");
+				this.puntuacion = 0;
+			}else {
+				System.out.println("Por " + posiblePunto + " puntos escriba una consonante...: ");
+
+				String letra = scanner.nextLine();
+				if (Caracter.esConsonante(letra.toCharArray()[0])) {
+					if (contieneLetra(letra)) {
+						this.puntuacion += posiblePunto;
+						this.addLetraAcertada(letra.toCharArray()[0]);
+						System.out.println("Has acertado. Quieres comprar una vocal por un coste de 30pts?.(y/n)");
+						String respuestaVocal = scanner.nextLine();
+						if (respuestaVocal.toLowerCase().equals("y")) {
+							if (this.puntuacion > 0) {
+								System.out.println("Escribe una vocal...:");
+								String vocal = scanner.nextLine();
+								if (Caracter.esVocal(vocal.toCharArray()[0])) {
+									if (contieneLetra(vocal)) {
+										this.addLetraAcertada(vocal.toCharArray()[0]);
+									} else {
+										this.addLetraNoAcertada(vocal.toCharArray()[0]);
+										System.out.println("La vocal " + vocal + " no existe");
+									}
+									this.puntuacion -= 30;
 								} else {
-									this.addLetraNoAcertada(vocal.toCharArray()[0]);
-									System.out.println("La vocal "+vocal+" no existe");
+									System.out.println("La letra " + vocal + " no es una vocal...");
 								}
-								this.puntuacion -= 10;
-							}else {
-								System.out.println("La letra " + vocal + " no es una vocal...");
+							} else {
+								System.out.println("No tienes puntos suficientes....");
 							}
-						} else {
-							System.out.println("No tienes puntos suficientes....");
+
 						}
 
+					} else {
+						this.addLetraNoAcertada(letra.toCharArray()[0]);
 					}
-
 				} else {
-					this.addLetraNoAcertada(letra.toCharArray()[0]);
+					System.out.println("La letra " + letra + " no es una consonante...");
 				}
-			} else {
-				System.out.println("La letra " + letra + " no es una consonante...");
 			}
+			
 			this.intentos--;
 			this.mostrarInfoResultado();
 			System.out.println("****************************************");
@@ -95,19 +100,18 @@ public class JuegoRuletaFortuna {
 				System.out.println("Escribe la frase:");
 				String frase = scanner.nextLine();
 				ganador = this.esGanador(frase);
-				if(!ganador) {
+				if (!ganador) {
 					System.out.println("La frase que has escrito no es la correspondiente...");
-				
-				}else {
-					System.out.println("Has ganado la partida. La frase era: "+this.getFraseAdivinar());
-					
+
+				} else {
+					System.out.println("Has ganado la partida. La frase era: " + this.getFraseAdivinar());
+
 				}
 			}
-			
 
 		} while (this.puedeSeguirJugando() && !ganador);
 
-		if(this.esPerdedor()) {
+		if (this.esPerdedor()) {
 			System.out.println("Has perdido la partida...");
 			this.setPuntuacion(0);
 		}
@@ -232,7 +236,7 @@ public class JuegoRuletaFortuna {
 	private int getIntentosNivel() {
 		int intentos = 0;
 		if (Niveles.Novato.equals(modoJuego)) {
-			intentos = 2;
+			intentos = 10;
 		} else if (Niveles.Medio.equals(modoJuego)) {
 			intentos = 8;
 		} else {
