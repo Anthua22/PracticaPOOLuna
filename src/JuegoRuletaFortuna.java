@@ -62,7 +62,7 @@ public class JuegoRuletaFortuna {
 						System.out.println("Has acertado. Quieres comprar una vocal por un coste de 30pts?.(y/n)");
 						String respuestaVocal = scanner.nextLine();
 						if (respuestaVocal.toLowerCase().equals("y")) {
-							if (this.puntuacion > 0) {
+							if (this.puntuacion > 30) {
 								System.out.println("Escribe una vocal...:");
 								String vocal = scanner.nextLine();
 								if (Caracter.esVocal(vocal.toCharArray()[0])) {
