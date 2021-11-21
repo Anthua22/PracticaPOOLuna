@@ -98,9 +98,9 @@ public class Main {
 					System.out.println("Escribre tu fecha de nacimiento (dd/MM/yyyy)...:");
 					String fech = scan.nextLine();
 					jugador.setFechaNac(dateFormat.parse(fech));
-					partida = new Partida(jugador);
-					
+	
 				}
+				partida = new Partida(jugador);
 				juego = new JuegoRuletaFortuna(Niveles.Novato, partida.getJugador().getFechaNac());
 				System.out.println("Deseas jugar más de 3 partidas o menos?(y/n)");
 				String respuesta = scan.nextLine();
